@@ -22,6 +22,7 @@ export default function TestJWT() {
             body: JSON.stringify({email, password})
         }).then(res => res.json()).then(data => {
             console.log("Data in jwt test", data);
+            
             setAccessToken(data.accessToken)
             
         }).catch(err => console.log(err)
@@ -66,22 +67,40 @@ export default function TestJWT() {
         })
         .catch(err => console.log(err))
     }
+    
+    // handle logout
+    const handleLogout = async () => {
+        fetch(process.env.NEXT_PUBLIC_API_URL + '/logout', {
+            method:"POST",
+            credentials:"include",
+            body:JSON.stringify({})
+        }).then(res => res.json())
+        .then(data => {
+            console.log(data);
+            setAccessToken(data.accessToken)
+        })
+        .catch(err => console.log(err))
+    }
 
   return (
     <main className='h-screen grid place-content-center'>
         <h1 className='text-5xl'>Test JWT</h1>
-        <button onClick={handleLogin} className='my-3 p-4 bg-blue-600 rounded-xl text-white text-2xl font-semibold'>
+        <button onClick={handleLogin} className='my-3 p-4 bg-green-500 rounded-xl text-white text-2xl font-semibold'>
             Login
         </button>
-        <button onClick={handlePartialUpdate} className='my-3 p-4 bg-blue-600 rounded-xl text-white text-2xl font-semibold'>
+        <button onClick={handlePartialUpdate} className='my-3 p-4 bg-yellow-500 rounded-xl text-white text-2xl font-semibold'>
             Partial update
         </button>
         { 
             unAuthorized && 
-            <button onClick={handleRefreshToken} className='my-3 p-4 bg-blue-600 rounded-xl text-white text-2xl font-semibold'>
+            <button onClick={handleRefreshToken} className='my-3 p-4 bg-red-500 rounded-xl text-white text-2xl font-semibold'>
                 Refresh
             </button>
         }
+        <button onClick={handleLogout} className='my-3 p-4 bg-blue-500 rounded-xl text-white text-2xl font-semibold'>
+            Logout
+        </button>
     </main>
   )
+
 }

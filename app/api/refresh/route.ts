@@ -21,7 +21,7 @@ export async function POST() {
         );
     }
 
-    //  get the refresh token
+    // if the token exists: get the refresh token
     const refrestToken = credential.value;
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_DJANGO_API_URL}/api/token/refresh/`, {

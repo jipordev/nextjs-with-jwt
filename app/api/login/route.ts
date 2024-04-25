@@ -10,8 +10,6 @@ export async function POST(req: NextRequest) {
 
     console.log("Email :", email);
     console.log("Password :", password);
-    
-    
 
 // Make a POST request to the Our API
     const response = await fetch(
@@ -62,10 +60,10 @@ export async function POST(req: NextRequest) {
         });
             // Return the access token and user data to the client-side
     // with the serialized refresh token as a cookie
-     return NextResponse.json({
+    return NextResponse.json({
         accessToken: accessToken,
         user: user,
-     }, {
+    }, {
         status: response.status,
         headers: {
             "Set-Cookie": serialized,

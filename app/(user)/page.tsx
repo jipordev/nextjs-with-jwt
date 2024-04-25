@@ -1,14 +1,31 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useEffect } from "react";
 import { fetchUserProfile } from "@/redux/features/userProfile/userProfileSlice";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
+import { useGetProductsQuery } from "@/redux/service/ecommerce";
 
 export default function Home() {
+	    // Get products with generated hook
+		const { data, error, isLoading } = useGetProductsQuery({
+			page: 1,
+			pageSize: 10,
+		});
+
+		const state = useAppSelector((state) => state)
+		console.log("Globle state: ", state);
+		
+		
+		console.log("data", data);
+		console.log("error", error);
+		console.log("isloading", isLoading);
+		
+
+
 	const { data: session } = useSession();
-	console.log(session);
+	// console.log(session);
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 
