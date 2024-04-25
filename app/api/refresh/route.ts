@@ -21,27 +21,29 @@ export async function POST() {
         );
     }
 
-    // if the token exists: get the refresh token
-    const refrestToken = credential.value;
+        // if the token exists: get the refresh token
+        const refrestToken = credential.value;
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_DJANGO_API_URL}/api/token/refresh/`, {
-        method:"POST",
-        headers:{"Content-Type" : "application/json"},
-        body: JSON.stringify({
-            refresh:refrestToken   
-        })
-    })
-    // If the request fails, return an error message to the client-side
-    if (!response.ok) {
-        return NextResponse.json(
-            {
-                message: "Failed to refresh access token",
-            },
-            {
-                status: response.status,
-            }
-        );
-    }
+        const response = await fetch(`${process.env.NEXT_PUBLIC_DJANGO_API_URL}/api/token/refresh/`, {
+            method:"POST",
+            headers:{"Content-Type" : "application/json"},
+            body: JSON.stringify({
+                refresh:refrestToken   
+            })
+            })
+
+        // If the request fails, return an error message to the client-side
+        if (!response.ok) {
+            return NextResponse.json(
+                {
+                    message: "Failed to refresh access token",
+                },
+                {
+                    status: response.status,
+                }
+            );
+        }
+
         // Parse the response body to get the data
         const data = await response.json();
         const refresh = data?.refresh || null;
@@ -55,7 +57,8 @@ export async function POST() {
             path: "/",
             sameSite: "lax",
         });
-        // Return the access token to the client-side with the serialized refresh token as a cookie
+
+    // Return the access token to the client-side with the serialized refresh token as a cookie
     return NextResponse.json(
         {
             accessToken: access,

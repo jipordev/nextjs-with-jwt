@@ -11,14 +11,14 @@ export async function POST(req: NextRequest) {
     console.log("Email :", email);
     console.log("Password :", password);
 
-// Make a POST request to the Our API
-    const response = await fetch(
-        `${process.env.DJANGO_API_URL}/api/user/login/`,
-        {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-        });
+        // Make a POST request to the Our API
+        const response = await fetch(
+            `${process.env.DJANGO_API_URL}/api/user/login/`,
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
 
 
         // If the request fails, return an error message to the client-side
@@ -32,17 +32,7 @@ export async function POST(req: NextRequest) {
                 }
             );
         }
-        // If the request fails, return an error message to the client-side
-    if (!response.ok) {
-        return NextResponse.json(
-            {
-                message: "Failed to login",
-            },
-            {
-                status: response.status,
-            }
-        );
-    }
+        
         // If the request is successful, parse the response body to get the data
         const data = await response.json();
         const user = data?.user || null;
@@ -58,7 +48,8 @@ export async function POST(req: NextRequest) {
             path: "/",
             sameSite: "lax", // or "strict" or "none"
         });
-            // Return the access token and user data to the client-side
+            
+    // Return the access token and user data to the client-side
     // with the serialized refresh token as a cookie
     return NextResponse.json({
         accessToken: accessToken,
