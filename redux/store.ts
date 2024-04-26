@@ -2,7 +2,9 @@ import { configureStore } from '@reduxjs/toolkit'
 import counterSlice from './features/counter/counterSlice'
 import cartSlice from './features/cart/cartSlice'
 import  userProfileSlice  from './features/userProfile/userProfileSlice'
-import { ecommerceApi } from './service/ecommerce'
+import { ecommerceApi } from './api'
+import authSlice from './features/auth/authSlice'
+
 // create store
 export const makeStore = () => {
   return configureStore({
@@ -11,7 +13,8 @@ export const makeStore = () => {
         [ecommerceApi.reducerPath]: ecommerceApi.reducer,
         counter: counterSlice,
         cart: cartSlice,
-        userProfile: userProfileSlice
+        userProfile: userProfileSlice,
+        auth: authSlice
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(ecommerceApi.middleware),
   });

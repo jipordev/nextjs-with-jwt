@@ -1,9 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { ecommerceApi } from "../api";
 
-// Define a service using a base URL and expected endpoints
-export const ecommerceApi = createApi({
-    reducerPath: "ecommerceApi", // The name of the slice of state that will be managed by this api
-    baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_DJANGO_API_URL }),
+export const productApi = ecommerceApi.injectEndpoints({
     endpoints: (builder) => ({
         // get all products
         //                        <result type,         args type>
@@ -20,24 +17,16 @@ export const ecommerceApi = createApi({
             query: ({ newProduct, accessToken }) => ({
                 url: "/api/products/",
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
                 body: newProduct,
             }),
         }),
         // update a product
         updateProduct: builder.mutation<
             any,
-            { id: number; updatedProduct: object; accessToken: string }>({
-            query: ({ id, updatedProduct, accessToken }) => ({
+            { id: number; updatedProduct: object;}>({
+            query: ({ id, updatedProduct}) => ({
                 url: `/api/products/${id}/`,
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
                 body: updatedProduct,
             }),
         }),
@@ -46,21 +35,15 @@ export const ecommerceApi = createApi({
             query: ({ id, accessToken }) => ({
                 url: `/api/products/${id}/`,
                 method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
             }),
         }),
     }),
-});
+})
+
 export const {
-    useGetProductsQuery,
-    useGetProductByIdQuery,
     useCreateProductMutation,
-    useUpdateProductMutation,
-    useDeleteProductMutation
-} = ecommerceApi;
-        
-
-
+    useGetProductByIdQuery,
+    useGetProductsQuery,
+    useDeleteProductMutation,
+    useUpdateProductMutation
+} = productApi
