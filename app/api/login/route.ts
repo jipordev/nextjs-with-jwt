@@ -1,6 +1,6 @@
 import { serialize } from "cookie";
-import { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+// import { NextResponse } from "next/server";
 
 // Handle login
 export async function POST(req: NextRequest) {
